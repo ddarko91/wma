@@ -1,0 +1,106 @@
+<!--Style CSS-->
+<style>
+    .container {
+        width: 50%;
+        color: white;
+    }
+    .container-fluid {
+        margin-top: 50px;
+    }
+    #exported {
+        margin: 20px 0;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    #alert {
+        margin-top: 5px;
+        height: 25px;
+        font-size: 17px;
+        padding: 0;
+        text-align: center; 
+    }
+    .search {
+        margin-top: 50px;
+    }
+    @media (max-width: 767.98px) {
+        .container {
+            width: 70%;
+           
+        }
+    }
+    
+    @media (max-width: 575.98px) {
+        .search {
+            width: 70%;
+        }
+    }
+</style>
+
+<!--Form-->
+<div class="container" id="exp">
+    <h3 class="text-success text-center">Export</h3>
+    <form  name="myForm" >
+        <div class="form-group">
+            <label>Product Code</label>
+            <select class="form-control" ng-model="code" name="code">
+                <option ng-repeat="imports in import" value="{{imports.code}}">{{imports.code}} {{imports.product_name}}</option>
+            </select>
+        </div>    
+        <div class="form-group">
+            <label>Product Name</label>
+            <input type="text" class="form-control" ng-model="nam" name="nam">
+        </div>
+        <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" class="form-control" ng-model="quantity" name="quantity">
+        </div>
+        <div class="form-group">
+            <label>Dispatch note Date</label>
+            <input type="text" class="form-control" ng-model="ispratnica_date" name="ispratnica_date" placeholder="YYYY-MM-DD" ng-minlength="10" ng-maxlength="10" required>
+            <div id="alert" class="alert alert-warning" ng-show="myForm.ispratnica_date.$invalid && myForm.ispratnica_date.$dirty">Insert YYYY-MM-DD format</div>
+        </div>
+        <div class="form-group">
+            <label>Dispatch note No.</label>
+            <input type="text" class="form-control" ng_model="ispratnica_no" name="ispratnica_no">
+        </div>
+
+        <button type="submit" class="btn btn-primary" ng-click="export_fun(code,nam,quantity,ispratnica_date,ispratnica_no)">Submit</button>
+
+    </form>
+</div>
+
+<!--Alert-->
+<div class="container">
+    <div class="alert alert-success" id="exported" ng-show="message">Exported</div>
+</div>
+
+<!--Search-->
+<div class="row">
+    <input type="text" class="form-control col-lg-3 col-md-5 col-sm-5 mx-auto search" ng-model="SearchC" name="SearchC" placeholder="Search by 'Product Code'">
+    <input type="text" class="form-control col-lg-3 col-md-5 col-sm-5 mx-auto search" ng-model="SearchP" name="SearchP" placeholder="Search by 'Product Name'">
+</div>    
+
+<!--Table-->
+<div class="container-fluid table-responsive">
+    <table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Product Code</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Dispatch note Date</th>
+                <th scope="col">Dispatch note No.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="exports in export | filter:{code:SearchC, product_name:SearchP}">
+                <td>{{exports.code}}</td>
+                <td>{{exports.product_name}}</td>
+                <td>{{exports.quantity}}</td>
+                <td>{{exports.ispratnica_date}}</td>
+                <td>{{exports.ispratnica_no}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

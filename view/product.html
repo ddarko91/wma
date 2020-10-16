@@ -1,0 +1,82 @@
+<style>
+  #deleted {
+        margin: 20px 0;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+    }
+  .search {
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+    
+    @media (max-width: 575.98px) {
+        .search {
+            width: 70%;
+        }
+    }
+</style>
+
+<!--Search-->
+<div class="row">
+  <input type="text" class="form-control col-lg-3 col-md-5 col-sm-5 mx-auto search" ng-model="SearchC" name="SearchC" placeholder="Search by 'Product Code'">
+  <input type="text" class="form-control col-lg-3 col-md-5 col-sm-5 mx-auto search" ng-model="SearchP" name="SearchP" placeholder="Search by 'Product Name'">
+</div> 
+
+<!--Alert-->
+<div class="container">
+  <div class="alert alert-danger" id="deleted"ng-show="message">Deleted</div>
+</div>
+
+<!--Table-->
+<div class="table-responsive">
+  <table class="table table-hover table-dark">
+    <h3 class="text-primary text-center">List</h3>
+    
+      <thead>
+        <tr>
+          <th scope="col">Product Code</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody id="pro">
+          <tr ng-repeat="products in product | filter:{code:SearchC, product_name:SearchP}">
+           <td>{{products.code}}</td>
+              <td>{{products.product_name}}</td>
+              <td>{{products.quantity}}</td>
+              
+              <td><button type="submit" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal"
+                ng-click="getID(products.code)">
+              <i class="fas fa-trash"></i></button></td>
+              
+          </tr>
+      </tbody>
+  </table>
+</div>
+
+  <!-- The Modal-->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <div class="modal-header">
+          <h4 class="modal-title">Do you want to remove</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        
+        <div class="modal-body">
+          <p>Product Code: {{getModalID}}</p>
+        </div>
+        
+        
+        <div class="modal-footer">
+          <button class="btn btn-danger" ng-click="deleteRow(getModalID)">Delete</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
